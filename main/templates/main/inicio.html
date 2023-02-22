@@ -1,0 +1,43 @@
+{% extends 'main/principal.html' %}
+{% block body %}
+<div class="container">
+  <div class="row">
+    {% for repuesto in repuestos %}
+    <div class="col s12 m4">
+      <div class="card ">
+        <center>
+            <span class="card-title">{{repuesto.nombre}}</span>
+            <div class="card-image waves-effect waves-block waves-light ">
+                
+                    {%if repuesto.imagen %}
+                        <img  src="{{repuesto.imagen.url}}" alt="..." style="height: 200px; width: 200px;">
+                    {% else %}
+                    <br><br><br><br>
+                        <img src="" alt="No disponemos de una imagen actualmente">
+                        <br><br><br><br>
+                    {% endif %}
+            </div>
+            <div class="card-content">
+                    <a class="btn-floating halfway-fab waves-effect waves-light blue activator"><i class="material-icons">+</i></a>
+                    <p>Precio: ${{repuesto.precio}}</p>
+            </div>
+        </center>
+        <div class="card-reveal">
+            <span class="card-title blue-text text-darken-4" >{{repuesto.nombre}}<i class="material-icons right" style="color:red;"> x </i></span>
+            <p><b>Categoria: </b>{{repuesto.categoria|safe}}</p>
+            <p><b>Descripcion: </b>{{repuesto.descripcion|safe}}</p>
+            
+        </div>
+        {% if user.is_authenticated %}
+            <center>
+                <div class="card-action  light-blue darken-3">
+                <a href="carrito/" class="white-text">Agregar a Carrito</a>
+                </div>
+                {% endif %}
+            </center>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{%endblock%}

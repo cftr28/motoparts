@@ -1,0 +1,65 @@
+<div class="alert alert-warning" role="alert">
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th scope="row" colspan="3" class="text-center"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-cart-check-fill" viewBox="0 0 16 16">
+          <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1H.5zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-1.646-7.646-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L8 8.293l2.646-2.647a.5.5 0 0 1 .708.708z"/>
+        </svg></th>
+      </tr>
+      <tr>
+        <th scope="col">NOMBRE</th>
+        <th scope="col">PRECIO</th>
+        <th scope="col">CANTIDAD</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% if request.session.carrito.items %}
+      {% for key, value in request.session.carrito.items %}
+      <tr>
+        <td>{{value.nombre}}</td>
+        <td>{{value.acumulado}}</td>
+        <td>{{value.cantidad}}
+          <a href="{% url 'Add' value.producto_id %}" class="badge btn btn-dark badge-dark">+</a>
+          <a href="{% url 'Sub' value.producto_id %}" class="badge btn btn-dark badge-dark">-</a>
+        </td>
+      </tr>
+      {% endfor %}
+      {% else %}
+      <tr>
+        <td colspan="3">
+          <div class="alert alert-danger text-center"> Sin Productos </div>
+        </td>
+      </tr>
+      {% endif %}
+      <tr>
+        <th scope="row">Total:</th>
+        <td colspan="2">$ {{total_carrito}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="row text-center">
+  {% if request.session.carrito.items %}
+  <div>
+    <br>
+    <h5>Para realizar la compra ingrese su correo</h5>
+    <form action="/enviarCorreo/" method="post">
+      {% csrf_token %}
+      <input type="text" name="mail" placeholder="@gmail.com">
+      <button type="submit" style="font-size: 16px;" class="btn btn-success">Comprar</button>
+    </form>
+    <br>
+    <h5>Si no desea realizar la compra precione <b>limpiar carrito !!!!</b></h5>
+    <center><div class="col-6"><a href="{% url 'CLS' %}" class="btn btn-danger">Limpiar carrito</a></div></center>
+    </div>
+  {% else %}
+  <div class="col-6"><a href="{% url 'CLS' %}" class="btn btn-danger disabled">Limpiar carrito</a></div>
+  <div class="col-6"><a href="#" class="btn btn-success disabled">Comprar</a></div>
+  <br><br>
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <strong>No existen compras vacias!</strong> Para realizar una compra necesita almenos un producto!!
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  {% endif %}
+</div>

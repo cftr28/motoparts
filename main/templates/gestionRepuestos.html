@@ -1,0 +1,126 @@
+{%block title%}Gestion de Inventario{% endblock %}
+{% load static %}
+{% block body %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0"
+    <link rel="stylesheet" type="text/css" href="{% static 'tinymce/css/prism.css'%}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="{% static 'css/gestionRepuestos.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+</head>
+<body>
+    <nav>
+        <div class="nav-wrapper black accent-3">
+          <a href="/" class="brand-logo ">Productos</a>
+          <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <li><a href="/">Inicio</a></li>
+            {%if user.is_authenticated%}
+            <li><a href="/carrito">Carrito</a></li>
+            {% if user.is_superuser %}
+                <li><a href="/administrar">Administrar Inventario</a></li>
+            {% endif %}
+            <li><a href="/user">{{user.username}}</a></li>
+            <li><a href="/logout">Salir</a></li>
+            {%else%}
+            <li><a href="/registro">Registro</a></li>
+            <li><a href="/login">Entrar</a></li>
+            {%endif%}
+          </ul>
+        </div>
+      </nav>
+    <div class="row">
+        
+        <div class="col-sm-12 col-md-6 col-lg-3 col-xl-3" >
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-dismissible alert-success">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <strong class="text-dark">{{ message }}</strong>
+            </div>
+            {% endfor %}
+            {% endif %}
+            <center><h2>Repuestos</h2></center>
+            <div class="card">
+                <div class="card-body">
+                    <form action="/registrarRepuesto/" method="POST" enctype="multipart/form-data">{% csrf_token %}
+                        <div class="form-group">
+                            <input type="number" id="txtid" name="txtid" class="form-control" placeholder="Id"
+                                 maxlength="20" readonly required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="txtnombre" name="txtnombre" class="form-control" placeholder="Nombre"
+                                 maxlength="20" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="txtcategoria" name="txtcategoria" class="form-control" placeholder="Categoria"
+                               required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="txtdescripcion" name="txtdescripcion" class="form-control" placeholder="Descripcion"
+                            required>
+                        </div>
+                        <div class="form-group">
+                            <input type="number" id="txtprecio" name="txtprecio" class="form-control" placeholder="Precio"
+                            required>
+                        </div>
+                        <div class="form-group">
+                            <input type="number" id="txtcantidad" name="txtcantidad" class="form-control" placeholder="Cantidad"
+                            required>
+                        </div>
+                        <div class="form-group">
+                            <input type="file" id="txtimagen1" name="txtimagen1" class="form-control">
+                        </div><br>
+                        <div class="form-group">
+                            <center><button type="submit" class="btn btn-success btn-block text-white">Guardar</button>
+                            </div></center>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-6 col-lg-8 col-xl-8" >
+            <center><h1>Inventario</h1></center>
+            <div class="table-responsive py-2">
+                <table class="table table-striped" >
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>NOMBRE</th>
+                            <th>CATEGORIA</th>
+                            <th>DESCRIPCION</th>
+                            <th>IMAGEN</th>
+                            <th>PRECIO</th>
+                            <th>CANTIDAD</th>
+                            <th colspan="2">OPCIONES</th>
+                        </tr>
+                    </thead>
+                    <tbody >
+                        {% for c in repuestos %}
+                        <tr >
+                            <td>{{c.id}}</td>
+                            <td>{{c.nombre}}</td>
+                            <td>{{c.categoria}}</td>
+                            <td>{{c.descripcion}}</td>
+                            <td>{{c.imagen}}</td>
+                            <td>{{c.precio}}</td>
+                            <td>{{c.cantidad}}</td>
+                            <td><a href="edicion/{{c.id}}" class="btn btn-info">edit</a></td>
+                            <td><a href="eliminar/{{c.id}}" class="btn btn-danger btnEliminacion" style="background-color:red;">delete</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    {%include "main/includes/messages.html"%}
+
+    <script src="{% static 'js/gestionRepuestos.js' %}"></script>
+    <script  type="text/javascript" src="{% static 'tinymce/js/prism.js'%}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+</body>
+</html>
+{% endblock %}

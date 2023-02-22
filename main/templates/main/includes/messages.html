@@ -1,0 +1,44 @@
+{% if messages %}
+{%for message in messages %}
+{%if message.tags == 'success' %}
+<script >
+    M.toast({
+        html: '{{message}}',
+        classes:'green rouded',
+        displayLength:2000,
+    });
+</script>
+{%endif%}
+{%if message.tags == 'info' %}
+<script >
+    M.toast({
+        html: '{{message}}',
+        classes:'blue rouded',
+        displayLength:2000,
+    });
+</script>
+{%endif%}
+
+{%if message.tags == 'warning' %}
+<script >
+    M.toast({
+        html: '{{message}}',
+        classes:'orange rouded',
+        displayLength:2000,
+    });
+</script>
+{%endif%}
+
+{%if message.tags == 'error' %} 
+<script >
+    M.toast({
+        html: '{{message}}',
+        classes:'red rouded',
+        displayLength:2000,
+    });
+</script>
+{%endif%}
+
+{%endfor%}
+
+{% endif %}

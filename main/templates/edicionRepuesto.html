@@ -1,0 +1,45 @@
+{%extends "main/principal.html"%}
+{%block title%}Editar Repuesto{% endblock %}
+{% block body %}
+<div class="row">
+    <div class="col-md-4 offset-md-4">
+        <h2>Actualizar Repuestos</h2>
+        <div class="card">
+            <div class="card-body">
+                <form action="/editar/" method="POST" enctype="multipart/form-data">{% csrf_token %}
+                    <div class="form-group">
+                        <input type="number" id="txtid" name="txtid" value="{{repuestos.id}}" class="form-control" placeholder="Id"
+                             maxlength="20" readonly required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="txtnombre" name="txtnombre" value="{{repuestos.nombre}}" class="form-control" placeholder="Nombre"
+                             maxlength="20" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="txtcategoria" name="txtcategoria" value="{{repuestos.categoria}}" class="form-control" placeholder="Categoria"
+                           required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="txtdescripcion" name="txtdescripcion" value="{{repuestos.descripcion}}" class="form-control" placeholder="Descripcion"
+                        required>
+                    </div>
+                    <div class="form-group">
+                        <input type="number" id="txtprecio" name="txtprecio" value="{{repuestos.precio}}"class="form-control" placeholder="Precio"
+                        required>
+                    </div>
+                    <div class="form-group">
+                        <input type="number" id="txtcantidad" name="txtcantidad" value="{{repuestos.cantidad}}" class="form-control" placeholder="Cantidad"
+                        required>
+                    </div>
+                    <div class="form-group">
+                        <input type="file" id="txtimagen2"  name="txtimagen2" value="{{repuestos.imagen}}" class="form-control">
+                    </div><br>
+                    <div class="form-group">
+                        <center><button type="submit" class="btn btn-success btn-block text-white">Actualizar</button>
+                        </div></center>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{%endblock%}

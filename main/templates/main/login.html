@@ -1,0 +1,11 @@
+{% extends 'main/principal.html' %}
+{%block body %}
+<center><div width="500" height="500" style="border: solid">
+    <form action="" method="POST">
+        {% csrf_token %} {{form.as_p}}
+        <center><button class="btn" type="submit">Iniciar Sesion</button><br/></center>
+    </form>
+    <br/>
+    No dispones de una cuenta? click aqui <a href="/registro">Registrar</a><br>
+</div></center>
+{%endblock%}

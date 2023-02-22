@@ -1,0 +1,19 @@
+<nav>
+    <div class="nav-wrapper teal accent-3">
+      <a href="/" class="brand-logo ">Productos</a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li><a href="/">Inicio</a></li>
+        {%if user.is_authenticated%}
+        <li><a href="carrito">Carrito</a></li>
+        {% if user.is_superuser %}
+            <li><a href="administrar">Administrar Inventario</a></li>
+        {% endif %}
+        <li><a href="/user">{{user.username}}</a></li>
+        <li><a href="/logout">Salir</a></li>
+        {%else%}
+        <li><a href="/registro">Registro</a></li>
+        <li><a href="/login">Entrar</a></li>
+        {%endif%}
+      </ul>
+    </div>
+  </nav>
